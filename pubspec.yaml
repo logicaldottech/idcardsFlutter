@@ -1,0 +1,66 @@
+name: untitled
+description: "A new Flutter project."
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.6.2 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+#  slider_button: ^2.1.0
+  image_picker: ^1.0.7
+  flutter_2fa: ^1.0.1
+  qr_flutter: ^4.1.0
+  device_info_plus: ^10.1.0
+  otp: ^3.1.4
+  dio: ^5.4.1
+  pretty_dio_logger: ^1.3.1
+  shared_preferences: ^2.2.2
+  permission_handler: ^11.3.0
+  http: ^1.2.0
+  path_provider: ^2.1.2
+  open_file: ^3.3.2
+  collection: ^1.18.0
+  file_picker: ^8.0.0
+  table_calendar: ^3.1.0
+  fl_chart: ^0.66.2
+  flutter_pdfview: ^1.3.2
+  flutter_bloc: ^8.1.3
+  intl: ^0.19.0
+  web_socket_channel: ^3.0.1
+  stream_channel: ^2.1.2
+  dots_indicator: ^3.0.0
+  pin_code_fields: ^8.0.1
+  chucker_flutter: ^1.8.3
+  logger: ^2.0.2
+  webview_flutter: ^4.7.0
+  flutter_svg: ^2.0.9
+  flutter_colorpicker: ^1.0.3
+  google_fonts: ^6.2.1
+  sqflite:
+  excel: ^2.0.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/cloudberrylogo.png
+    - assets/image/attendance.png
+    - assets/image/time-management.png
+    - assets/image/school_logo.png
+    - assets/image/onboarding_first.png
+    - assets/image/student_id_card.png
+    - assets/image/success.png
+    - assets/image/bottomsheet_logo.png
+    - assets/image/logo.png
+
+
