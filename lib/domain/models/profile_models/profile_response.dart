@@ -28,6 +28,7 @@ class ProfileDetail {
   final String createdAt;
   final String updatedAt;
   final int version;
+  final String? logo;
 
   ProfileDetail({
     required this.wallet,
@@ -43,6 +44,7 @@ class ProfileDetail {
     required this.createdAt,
     required this.updatedAt,
     required this.version,
+    required this.logo
   });
 
   factory ProfileDetail.fromJson(Map<String, dynamic> json) {
@@ -60,6 +62,7 @@ class ProfileDetail {
       createdAt: json['createdAt'],
       updatedAt: json['updatedAt'],
       version: json['__v'],
+      logo: json['logo']
     );
   }
 }

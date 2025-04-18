@@ -31,8 +31,6 @@ class AppColors {
 
   static const torbirealty = Color(0XFFEFF1F2);
 
-
-
   static const graylite = Color(0xFFF6F7E4);
 
   static const bg_1 = Color(0XFFF3FAFF);
@@ -183,9 +181,13 @@ class AppColors {
   static const Color golden = Color(0xFFFBB415);
   static const Color thumbFilled = Color(0xFF09484C);
 
-
   static const Color primaryGreenColor = Color(0xFF01c853);
   static const Color primaryYellowColor = Color(0xFFffe230);
   static const Color primaryDarkBlueColor = Color(0XFF17a2b8);
   static const Color secondaryGreenColor = Color(0XFF9AB69B);
+
+  static const Color charcoalGray = Color(0xFF363636);
+  static const Color violetBlue = Color(0xFF7653F6);
+  static const Color goldenYellow = Color(0xFFFFD83D);
+  static const Color paleLavender = Color(0xFFDDD3FF);
 }

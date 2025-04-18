@@ -1,0 +1,1 @@
+/Users/soumya/Documents/GitHub/schoolIdCard/build/app/intermediates/cxx/RelWithDebInfo/3d3g3g4n/obj/x86_64

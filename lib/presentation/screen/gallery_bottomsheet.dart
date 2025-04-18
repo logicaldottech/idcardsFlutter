@@ -72,6 +72,7 @@ Widget buildOption(
   return GestureDetector(
     onTap: () {
       Navigator.pop(context);
+
       if (onTap != null) onTap();
     },
     child: Column(

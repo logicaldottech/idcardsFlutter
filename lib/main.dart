@@ -1,8 +1,9 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:untitled/presentation/bloc/create_order_bloc/create_order_cubit.dart';
+import 'package:untitled/presentation/bloc/edit_profile_bloc/edit_profile_cubit.dart';
+import 'package:untitled/presentation/bloc/home_bloc/home_cubit.dart';
 import 'package:untitled/presentation/bloc/login_bloc/change_password_cubit.dart';
 import 'package:untitled/presentation/bloc/login_bloc/login_cubit.dart';
 import 'package:untitled/presentation/bloc/login_bloc/new_password_cubit.dart';
@@ -22,12 +23,19 @@ import 'navigation/page_routes.dart';
 
 import 'package:chucker_flutter/chucker_flutter.dart';
 
-
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   Bloc.observer = SimpleBlocObserver();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  SystemChrome.setSystemUIOverlayStyle(
+    SystemUiOverlayStyle(
+      statusBarColor: Colors.grey.withOpacity(0.5), // Set your desired color
+      statusBarIconBrightness:
+          Brightness.light, // For white icons on dark background
+      // statusBarBrightness: Brightness.dark, // Use this on iOS if needed
+    ),
+  );
   WidgetsFlutterBinding.ensureInitialized();
 
   runApp(const MyApp());
@@ -42,18 +50,28 @@ class MyApp extends StatelessWidget {
       create: (_) => MainRepository(),
       child: MultiBlocProvider(
         providers: [
-        BlocProvider<LoginCubit>(create: (context) => LoginCubit()),
-          BlocProvider<ChangePasswordCubit>(create: (context) => ChangePasswordCubit()),
-          BlocProvider<NewPasswordCubit>(create: (context) => NewPasswordCubit()),
+          BlocProvider<LoginCubit>(create: (context) => LoginCubit()),
+          BlocProvider<ChangePasswordCubit>(
+              create: (context) => ChangePasswordCubit()),
+          BlocProvider<NewPasswordCubit>(
+              create: (context) => NewPasswordCubit()),
+          BlocProvider<HomeCubit>(create: (context) => HomeCubit()),
           BlocProvider<TemplateCubit>(create: (context) => TemplateCubit()),
-          BlocProvider<StudentFormCubit>(create: (context) => StudentFormCubit()),
+          BlocProvider<StudentFormCubit>(
+              create: (context) => StudentFormCubit()),
           BlocProvider<ProfileCubit>(create: (context) => ProfileCubit()),
-          BlocProvider<CreateOrderCubit>(create: (context) => CreateOrderCubit()),
-          BlocProvider<OrderHistoryCubit>(create: (context) => OrderHistoryCubit()),
+          BlocProvider<CreateOrderCubit>(
+              create: (context) => CreateOrderCubit()),
+          BlocProvider<OrderHistoryCubit>(
+              create: (context) => OrderHistoryCubit()),
           BlocProvider<LogoutCubit>(create: (context) => LogoutCubit()),
-          BlocProvider<UpdateTemplateCubit>(create: (context) => UpdateTemplateCubit()),
+          BlocProvider<UpdateTemplateCubit>(
+              create: (context) => UpdateTemplateCubit()),
           BlocProvider<UploadFileCubit>(create: (context) => UploadFileCubit()),
-          BlocProvider<OrderDetailsPreviewCubit>(create: (context) => OrderDetailsPreviewCubit()),
+          BlocProvider<OrderDetailsPreviewCubit>(
+              create: (context) => OrderDetailsPreviewCubit()),
+          BlocProvider<EditProfileCubit>(
+              create: (context) => EditProfileCubit()),
         ],
         child: MaterialApp(
           navigatorKey: navigatorKey,

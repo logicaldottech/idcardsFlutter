@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:untitled/utils/loading_animation.dart';
+import 'package:untitled/utils/vl_toast.dart';
 import '../../navigation/page_routes.dart';
 import '../../theme/app_colors.dart';
 import '../bloc/login_bloc/login_cubit.dart';
@@ -33,85 +35,96 @@ class _LoginDetailScreenState extends State<LoginDetailScreen> {
     super.dispose();
   }
 
-
-
   void _validateInput() {
     setState(() {
-      _isButtonEnabled =
-          emailController.text.trim().isNotEmpty && passwordController.text.trim().isNotEmpty;
+      _isButtonEnabled = emailController.text.trim().isNotEmpty &&
+          passwordController.text.trim().isNotEmpty;
     });
   }
+
   void showLoginSuccessBottomSheetPopUp(BuildContext context) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
+      isDismissible: false,
       backgroundColor: Colors.transparent,
       builder: (context) => const LoginSuccessBottomSheet(),
     );
   }
 
-
-
-
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
+    return SafeArea(
+      child: Scaffold(
         backgroundColor: Colors.white,
-        elevation: 0,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => Navigator.pop(context),
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          elevation: 0,
+          leading: ModalRoute.of(context)?.impliesAppBarDismissal == true
+              ? IconButton(
+                  icon: Icon(Icons.arrow_back, color: Colors.black),
+                  onPressed: () => Navigator.maybePop(context),
+                )
+              : null,
         ),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: 20),
-            Text(
-              "Welcome Back",
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 8),
-            Text("Please sign in with your account", style: TextStyle(fontSize: 16, color: Colors.black54)),
-            SizedBox(height: 32),
-            _inputField(),
-
-          ],
-        ),
-      ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(24),
-        child: BlocConsumer<LoginCubit, LoginState>(
-          listener: (context, state) {
-            if (state is LoginLoadingState) {
-              _showLoadingDialog();
-            } else if (state is LoginSuccessState) {
-              _dismissLoadingDialog();
-              showLoginSuccessBottomSheetPopUp(context);
-           //   showLoginSuccessBottomSheet(context, state.response.data.isAdminPassword.toString());
-
-              
-
-            } else {
-              _dismissLoadingDialog();
-            }
-          },
-          builder: (context, state) {
-            return ElevatedButton(
-              onPressed: _isButtonEnabled ? _handleLogin : null,
-              child: Text("Sign In", style: TextStyle(fontSize: 18, color: Colors.white)),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Color(0xFF7653F6) ,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                padding: EdgeInsets.symmetric(vertical: 16),
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: 20),
+              Text(
+                "Welcome Back",
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
-            );
-          },
+              SizedBox(height: 8),
+              Text("Please sign in with your account",
+                  style: TextStyle(fontSize: 16, color: Colors.black54)),
+              SizedBox(height: 32),
+              _inputField(),
+            ],
+          ),
+        ),
+        bottomNavigationBar: Padding(
+          padding: const EdgeInsets.all(24),
+          child: BlocConsumer<LoginCubit, LoginState>(
+            listener: (context, state) {
+              // if (state is LoginRequestLoadingState) {
+              // _showLoadingDialog();
+              // }
+              if (state is LoginSuccessState) {
+                showLoginSuccessBottomSheetPopUp(context);
+              }
+              if (state is LoginErrorState) {
+                ToastUtils.showErrorToast(
+                    state.error ?? 'Something went wrong');
+              }
+              if (state is ChangePasswordState) {
+                Navigator.pushReplacementNamed(
+                    context, PageRoutes.changePasswordScreen);
+              }
+            },
+            buildWhen: (previous, current) =>
+                current is LoginRequestLoadingState ||
+                current is LoginSuccessState ||
+                current is LoginErrorState,
+            builder: (context, state) {
+              if (state is LoginRequestLoadingState) {
+                return SizedBox(height: 100, child: const LoadingAnimation());
+              }
+              return ElevatedButton(
+                onPressed: _isButtonEnabled ? _handleLogin : null,
+                child: Text("Sign In",
+                    style: TextStyle(fontSize: 18, color: Colors.white)),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Color(0xFF7653F6),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8)),
+                  padding: EdgeInsets.symmetric(vertical: 16),
+                ),
+              );
+            },
+          ),
         ),
       ),
     );
@@ -121,30 +134,34 @@ class _LoginDetailScreenState extends State<LoginDetailScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("Email", style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+        Text("Email",
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
         SizedBox(height: 8),
         TextField(
           controller: emailController,
           decoration: _inputDecoration("Enter your email", Icons.email),
         ),
         SizedBox(height: 16),
-        Text("Password", style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+        Text("Password",
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
         SizedBox(height: 8),
         TextField(
           controller: passwordController,
           obscureText: _obscureText,
-          decoration: _inputDecoration("Enter your password", Icons.lock).copyWith(
+          decoration:
+              _inputDecoration("Enter your password", Icons.lock).copyWith(
             suffixIcon: IconButton(
-              icon: Icon(_obscureText ? Icons.visibility_off : Icons.visibility),
+              icon:
+                  Icon(_obscureText ? Icons.visibility_off : Icons.visibility),
               onPressed: () => setState(() => _obscureText = !_obscureText),
             ),
           ),
         ),
         SizedBox(height: 8),
-        Align(
-          alignment: Alignment.centerRight,
-          child: Text("Forgot Password?", style: TextStyle(color: Colors.blue)),
-        ),
+        // Align(
+        //   alignment: Alignment.centerRight,
+        //   child: Text("Forgot Password?", style: TextStyle(color: Colors.blue)),
+        // ),
       ],
     );
   }
@@ -183,16 +200,28 @@ class _LoginDetailScreenState extends State<LoginDetailScreen> {
 
   void _dismissLoadingDialog() {
     if (_isLoading) {
-      Navigator.of(context, rootNavigator: true).pop();
+      Navigator.of(
+        context,
+      ).pop();
       _isLoading = false;
     }
   }
 }
+
 class LoginSuccessBottomSheet extends StatelessWidget {
   const LoginSuccessBottomSheet({super.key});
 
   @override
   Widget build(BuildContext context) {
+    bool isNavigated = false;
+    Future.delayed(const Duration(seconds: 3), () {
+      if (!isNavigated) {
+        isNavigated = true;
+
+        Navigator.pushNamedAndRemoveUntil(
+            context, PageRoutes.home, (route) => false);
+      }
+    });
     return FractionallySizedBox(
       heightFactor: 0.7,
       child: Container(
@@ -241,8 +270,11 @@ class LoginSuccessBottomSheet extends StatelessWidget {
                   ),
                 ),
                 onPressed: () {
-
-                 Navigator.of(context, rootNavigator: true).pushNamed(PageRoutes.home);
+                  if (!isNavigated) {
+                    isNavigated = true;
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, PageRoutes.home, (route) => false);
+                  }
                 },
                 child: Text(
                   "Sign In",
@@ -261,4 +293,3 @@ class LoginSuccessBottomSheet extends StatelessWidget {
     );
   }
 }
-

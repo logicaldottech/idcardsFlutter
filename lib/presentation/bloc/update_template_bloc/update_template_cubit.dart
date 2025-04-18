@@ -2,7 +2,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:untitled/presentation/bloc/update_template_bloc/update_template_state.dart';
 
-
 import '../../../domain/exceptions/login_exception.dart';
 
 import '../../../domain/models/edit_template_models/edit_template_request.dart';
@@ -14,16 +13,17 @@ class UpdateTemplateCubit extends Cubit<UpdateTemplateState> {
 
   final MainRepository _mainRepository = MainRepository();
 
-  Future<void> fetchUpdatedTemplates({required EditTemplateRequest  request, String? schoolId}) async {
+  Future<void> updateCustomTemplate(
+      {required EditTemplateRequest request, String? schoolId}) async {
     try {
       emit(UpdateTemplateLoadingState());
-      EditTemplateResponse updateTemplateResponse = await _mainRepository.postEditTemplate(request, schoolId!);
+      EditTemplateResponse updateTemplateResponse =
+          await _mainRepository.postEditTemplate(request, schoolId!);
 
-      await Future.delayed(Duration(seconds: 1));
-        emit(UpdateTemplateSuccessState(updateTemplateResponse));
-      }
-     catch (error) {
-
+      // await Future.delayed(Duration(seconds: 1));
+      emit(UpdateTemplateSuccessState(updateTemplateResponse));
+    } catch (error) {
+      emit(UpdateTemplateErrorState('An error occurred. Please try again.'));
     }
   }
 }

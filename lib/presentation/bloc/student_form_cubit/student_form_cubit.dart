@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:untitled/data/data_sources/local/database_helper.dart';
 import '../../../data/data_sources/local/preference_utils.dart';
 
 import '../../../domain/exceptions/login_exception.dart';
@@ -13,19 +14,61 @@ class StudentFormCubit extends Cubit<StudentFormState> {
 
   final MainRepository _mainRepository = MainRepository();
 
+  void addStudentDetails(String jsonData,
+      {String? logo, String? signature, required String templateId}) async {
+    try {
+      emit(AddStudentDetailsLoadingState());
+
+      final db = await DatabaseHelper.instance.database;
+      await db.insert('orders', {
+        'data': jsonData,
+        'templateId': templateId,
+        if (logo != null) 'logo': logo,
+        if (signature != null) 'signature': signature
+      });
+
+      emit(AddStudentDetailsSuccessState());
+    } catch (e) {
+      emit(AddStudentDetailsErrorState('An error occurred. Please try again.'));
+    }
+  }
+
+  void updateStudentDetails(int id, String jsonData,
+      {String? logo, String? signature}) async {
+    try {
+      emit(AddStudentDetailsLoadingState());
+
+      final db = await DatabaseHelper.instance.database;
+      await db.update(
+          'orders',
+          {
+            'data': jsonData,
+            if (logo != null) 'logo': logo,
+            if (signature != null) 'signature': signature
+          },
+          where: 'id = ?',
+          whereArgs: [id]);
+
+      emit(AddStudentDetailsSuccessState());
+    } catch (e) {
+      emit(AddStudentDetailsErrorState('An error occurred. Please try again.'));
+    }
+  }
+
   Future<void> submitStudentForm(StudentFormRequest request) async {
     try {
       emit(StudentFormRequestLoadingState());
       print("Student form submission initiated: \${request.toJson()}");
 
-      StudentFormResponse? response = await _mainRepository.postStudentForm(request);
+      StudentFormResponse? response =
+          await _mainRepository.postStudentForm(request);
       print("Student form API response: \$response");
 
       if (response.data.id.isNotEmpty == true) {
-
         emit(StudentFormSuccessState(response));
       } else {
-        print("Student form submission failed: Invalid response or missing ID.");
+        print(
+            "Student form submission failed: Invalid response or missing ID.");
         emit(StudentFormErrorState("Invalid response. Please try again."));
       }
     } on LoginApplicationException catch (error) {

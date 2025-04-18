@@ -22,6 +22,8 @@ class PageRoutes {
   static const String editTemplateScreen = "/editTemplateScreen";
   static const String orderDetailsPreviewScreen = "/orderDetailsPreviewScreen";
 
+  static const String editProfileScreen = "/editProfileScreen";
+
 
 
 

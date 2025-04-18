@@ -32,7 +32,7 @@ class FileDownload {
     }
 
     if (isSuccess) {
-      Navigator.pop(context);
+      Navigator.maybePop(context);
     }
   }
 

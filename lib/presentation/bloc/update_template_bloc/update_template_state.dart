@@ -1,5 +1,3 @@
-
-
 import '../../../domain/models/edit_template_models/edit_template_response.dart';
 
 abstract class UpdateTemplateState {}
@@ -22,7 +20,7 @@ class UpdateTemplateSuccessState extends UpdateTemplateState {
 
 // State for general template update errors
 class UpdateTemplateErrorState extends UpdateTemplateState {
-  final String? error;
+  final String error;
 
   UpdateTemplateErrorState(this.error);
 
@@ -37,7 +35,8 @@ class UpdateTemplateFieldErrorState extends UpdateTemplateState {
   UpdateTemplateFieldErrorState(this.fieldErrors);
 
   @override
-  String toString() => 'UpdateTemplateFieldErrorState(fieldErrors: $fieldErrors)';
+  String toString() =>
+      'UpdateTemplateFieldErrorState(fieldErrors: $fieldErrors)';
 }
 
 // State for non-field-specific errors in template update
@@ -47,7 +46,8 @@ class UpdateTemplateNonFieldErrorState extends UpdateTemplateState {
   UpdateTemplateNonFieldErrorState(this.nonFieldErrors);
 
   @override
-  String toString() => 'UpdateTemplateNonFieldErrorState(nonFieldErrors: $nonFieldErrors)';
+  String toString() =>
+      'UpdateTemplateNonFieldErrorState(nonFieldErrors: $nonFieldErrors)';
 }
 
 // State for general field errors in template update
@@ -57,5 +57,6 @@ class UpdateTemplateGeneralFieldErrorState extends UpdateTemplateState {
   UpdateTemplateGeneralFieldErrorState(this.generalFieldErrors);
 
   @override
-  String toString() => 'UpdateTemplateGeneralFieldErrorState(generalFieldErrors: $generalFieldErrors)';
+  String toString() =>
+      'UpdateTemplateGeneralFieldErrorState(generalFieldErrors: $generalFieldErrors)';
 }

@@ -12,9 +12,14 @@ class OrderDetailsPreviewCubit extends Cubit<OrderDetailsPreviewState> {
   int _totalPages = 1;
   int _limit = 3; // Default limit
   bool _hasMoreData = true;
+  bool isPortrait = false;
+  bool isLoading = false;
   List<OrderItem> _orderData = []; // List to store fetched order items
 
-  Future<void> fetchOrderDetails({required String orderId, bool isLoadMore = false}) async {
+  Future<void> fetchOrderDetails(
+      {required String orderId, bool isLoadMore = false}) async {
+    if (isLoading) return;
+    isLoading = true;
     if (!isLoadMore) {
       _currentPage = 1;
       _hasMoreData = true;
@@ -34,7 +39,7 @@ class OrderDetailsPreviewCubit extends Cubit<OrderDetailsPreviewState> {
       if (response.data?.data != null) {
         _orderData.addAll(response.data!.data!); // Append new data
       }
-
+      isPortrait = response.data?.isPortrait ?? false;
       // **Update pagination based on API response**
       _totalPages = response.data?.pagination?.totalPages ?? 1;
       _limit = response.data?.pagination?.limit ?? 3;
@@ -58,8 +63,10 @@ class OrderDetailsPreviewCubit extends Cubit<OrderDetailsPreviewState> {
     } catch (error, stackTrace) {
       print("Unhandled order details preview error: $error");
       print(stackTrace);
-      emit(OrderDetailsPreviewErrorState("An error occurred. Please try again."));
+      emit(OrderDetailsPreviewErrorState(
+          "An error occurred. Please try again."));
     }
+    isLoading = false;
   }
 
   void _handleLoginException(LoginApplicationException error) {
@@ -74,7 +81,8 @@ class OrderDetailsPreviewCubit extends Cubit<OrderDetailsPreviewState> {
     } else if (generalFieldErrors.isNotEmpty) {
       emit(OrderDetailsPreviewGeneralFieldErrorState(generalFieldErrors));
     } else {
-      emit(OrderDetailsPreviewErrorState("Unexpected error occurred while fetching order details."));
+      emit(OrderDetailsPreviewErrorState(
+          "Unexpected error occurred while fetching order details."));
     }
   }
 }

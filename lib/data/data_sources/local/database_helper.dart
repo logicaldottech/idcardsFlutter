@@ -29,7 +29,10 @@ class DatabaseHelper {
     await db.execute('''
       CREATE TABLE orders (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        data TEXT NOT NULL
+        data TEXT NOT NULL,
+        templateId TEXT,
+        logo TEXT,
+        signature TEXT
       )
     ''');
 
@@ -37,15 +40,33 @@ class DatabaseHelper {
     await db.execute('''
       CREATE TABLE excel_orders (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        data TEXT NOT NULL
+        data TEXT NOT NULL,
+        templateId TEXT,
+        logo TEXT,
+        signature TEXT
+
       )
     ''');
   }
 
   /// Fetches orders from the specified table (default is 'orders').
-  Future<List<Map<String, dynamic>>> getOrders({String tableName = 'orders'}) async {
+  Future<List<Map<String, dynamic>>> getOrders(String templateId,
+      {String tableName = 'orders'}) async {
     final db = await database;
-    return await db.query(tableName);
+    return await db
+        .query(tableName, where: 'templateId = ?', whereArgs: [templateId]);
+  }
+
+  /// Updates a specific order in the specified table (default is 'orders').
+  Future<void> updateOrder(int id, String jsonData,
+      {String tableName = 'orders'}) async {
+    final db = await database;
+    await db.update(
+      tableName,
+      {'data': jsonData},
+      where: 'id = ?',
+      whereArgs: [id],
+    );
   }
 
   /// Deletes a specific order from the specified table (default is 'orders').
@@ -60,8 +81,15 @@ class DatabaseHelper {
     await db.delete(tableName);
   }
 
+  Future<void> clearTableWithTemplateId(String tableName,
+      {required String templateId}) async {
+    final db = await database;
+    await db
+        .delete(tableName, where: "templateId = ?", whereArgs: [templateId]);
+  }
+
   /// Deletes the entire database file.
-  Future<void> deleteDatabaseFile({required String tableName}) async {
+  Future<void> deleteDatabaseFile() async {
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, 'orders.db');
     await database; // Ensure the database is initialized.
@@ -70,5 +98,14 @@ class DatabaseHelper {
       _database = null;
     }
     await deleteDatabase(path);
+  }
+
+  /// Closes the database connection.
+  Future<void> close() async {
+    final db = _database;
+    if (db != null) {
+      await db.close();
+      _database = null;
+    }
   }
 }

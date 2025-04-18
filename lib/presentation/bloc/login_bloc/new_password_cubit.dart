@@ -1,5 +1,4 @@
-
-
+import 'package:collection/collection.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../domain/exceptions/login_exception.dart';
@@ -16,38 +15,35 @@ class NewPasswordCubit extends Cubit<NewPasswordState> {
   Future<void> newPassword(NewPasswordRequest request) async {
     try {
       emit(NewPasswordLoadingState());
-      NewPasswordResponse loginResponse = await _mainRepository.postNewPassword(request);
+      NewPasswordResponse loginResponse =
+          await _mainRepository.postNewPassword(request);
       print("forgotResponse ${loginResponse.message}");
-      if(loginResponse.message?.isNotEmpty == true){
+      if (loginResponse.message?.isNotEmpty == true) {
         emit(NewPasswordSuccessState(loginResponse));
-      }
-      else{
+      } else {
         throw Exception('Invalid Email Address');
       }
-
-    }
-    on LoginApplicationException catch (error) {
+    } on LoginApplicationException catch (error) {
       if (error is LoginApplicationException) {
         final fieldErrors = error.fieldErrors ?? {};
         final nonFieldError = error.nonFieldErrors ?? {};
         final generalFieldError = error.generalFieldErrors ?? {};
         if (fieldErrors.isNotEmpty == true) {
           print("changePasswordErrorfield ${fieldErrors}");
-          emit(NewPasswordFieldErrorState(fieldErrors));
-        }
-        else if (nonFieldError.isNotEmpty == true) {
+          final error = fieldErrors.values.flattenedToList.join(", ");
+          emit(NewPasswordErrorState(error));
+        } else if (nonFieldError.isNotEmpty == true) {
           print("changePasswordErrorfield ${nonFieldError}");
-          emit(NewPasswordNonFieldErrorState(nonFieldError));
-        }
-        else if(generalFieldError.isNotEmpty == true){
-          emit(NewPasswordGeneralFieldErrorState(generalFieldError));
-        }
-        else {
+          final error = nonFieldError.values.flattenedToList.join(", ");
+          emit(NewPasswordErrorState(error));
+        } else if (generalFieldError.isNotEmpty == true) {
+          final error = generalFieldError.values.flattenedToList.join(", ");
+          emit(NewPasswordErrorState(error));
+        } else {
           print("changePasswordErrorNonfield ${fieldErrors}");
           emit(NewPasswordErrorState(error.toString()));
         }
-      }
-      else {
+      } else {
         print("changePasswordErrorgeneralfield ${error.toString()}");
         emit(NewPasswordErrorState(error.toString()));
       }

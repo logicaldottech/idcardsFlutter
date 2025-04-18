@@ -1,5 +1,3 @@
-
-
 import '../../../domain/models/student_form_models/student_form_response.dart';
 
 abstract class StudentFormState {}
@@ -47,7 +45,8 @@ class StudentFormNonFieldErrorState extends StudentFormState {
   StudentFormNonFieldErrorState(this.nonFieldErrors);
 
   @override
-  String toString() => 'StudentFormNonFieldErrorState(nonFieldErrors: $nonFieldErrors)';
+  String toString() =>
+      'StudentFormNonFieldErrorState(nonFieldErrors: $nonFieldErrors)';
 }
 
 // State for general field errors
@@ -57,5 +56,25 @@ class StudentFormGeneralFieldErrorState extends StudentFormState {
   StudentFormGeneralFieldErrorState(this.generalFieldErrors);
 
   @override
-  String toString() => 'StudentFormGeneralFieldErrorState(generalFieldErrors: $generalFieldErrors)';
+  String toString() =>
+      'StudentFormGeneralFieldErrorState(generalFieldErrors: $generalFieldErrors)';
+}
+
+class AddStudentDetailsLoadingState extends StudentFormState {
+  @override
+  String toString() => 'AddStudentDetailsLoadingState()';
+}
+
+class AddStudentDetailsSuccessState extends StudentFormState {
+  @override
+  String toString() => 'AddStudentDetailsSuccessState()';
+}
+
+class AddStudentDetailsErrorState extends StudentFormState {
+  final String error;
+
+  AddStudentDetailsErrorState(this.error);
+
+  @override
+  String toString() => 'AddStudentDetailsErrorState(error: $error)';
 }

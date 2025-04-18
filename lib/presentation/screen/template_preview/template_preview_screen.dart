@@ -61,21 +61,18 @@ class _TemplatePreviewScreenState extends State<TemplatePreviewScreen> {
     return Scaffold(
       appBar: AppBar(title: Text("Preview Template")),
       body: Center(
-        child: Column(  // Use Row to display front and back side by side, change to Column if needed
+        child: Column(
+          // Use Row to display front and back side by side, change to Column if needed
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(
-
-
               height: 250,
               child: WebViewWidget(controller: _frontController),
             ),
             SizedBox(width: 20), // Spacing between images
             SizedBox(
-
               height: 250,
-
               child: WebViewWidget(controller: _backController!),
             )
           ],
@@ -85,8 +82,9 @@ class _TemplatePreviewScreenState extends State<TemplatePreviewScreen> {
         padding: const EdgeInsets.all(12.0),
         child: ElevatedButton(
           onPressed: () {
-            Navigator.of(context, rootNavigator: true)
-                .pushNamed(PageRoutes.studentFormDetails, arguments: widget.id);
+            Navigator.of(
+              context,
+            ).pushNamed(PageRoutes.studentFormDetails, arguments: widget.id);
           },
           style: ElevatedButton.styleFrom(
             minimumSize: Size(double.infinity, 50),
@@ -96,7 +94,4 @@ class _TemplatePreviewScreenState extends State<TemplatePreviewScreen> {
       ),
     );
   }
-
-
-
 }

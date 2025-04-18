@@ -1,0 +1,2 @@
+/Users/soumya/Documents/GitHub/schoolIdCard/android/app/.cxx/RelWithDebInfo/3d3g3g4n/x86_64/CMakeFiles/edit_cache.dir
+/Users/soumya/Documents/GitHub/schoolIdCard/android/app/.cxx/RelWithDebInfo/3d3g3g4n/x86_64/CMakeFiles/rebuild_cache.dir

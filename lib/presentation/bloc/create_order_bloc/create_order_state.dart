@@ -1,5 +1,3 @@
-
-
 import '../../../domain/models/create_order_models/create_order_response.dart';
 
 abstract class CreateOrderState {}
@@ -46,7 +44,8 @@ class CreateOrderNonFieldErrorState extends CreateOrderState {
 
   CreateOrderNonFieldErrorState(this.nonFieldErrors);
   @override
-  String toString() => 'CreateOrderNonFieldErrorState(nonFieldErrors: $nonFieldErrors)';
+  String toString() =>
+      'CreateOrderNonFieldErrorState(nonFieldErrors: $nonFieldErrors)';
 }
 
 // State for general field errors in order creation
@@ -55,5 +54,44 @@ class CreateOrderGeneralFieldErrorState extends CreateOrderState {
   CreateOrderGeneralFieldErrorState(this.generalFieldErrors);
 
   @override
-  String toString() => 'CreateOrderGeneralFieldErrorState(generalFieldErrors: $generalFieldErrors)';
+  String toString() =>
+      'CreateOrderGeneralFieldErrorState(generalFieldErrors: $generalFieldErrors)';
+}
+
+class DeleteStudentRecordLoadingState extends CreateOrderState {
+  @override
+  String toString() => 'DeleteStudentRecordLoadingState';
+}
+
+class DeleteStudentRecordSuccessState extends CreateOrderState {
+  @override
+  String toString() => 'DeleteStudentRecordSuccessState';
+}
+
+class DeleteStudentRecordErrorState extends CreateOrderState {
+  final String error;
+
+  DeleteStudentRecordErrorState(this.error);
+
+  @override
+  String toString() => 'DeleteStudentRecordErrorState(error: $error)';
+}
+
+class UpdateImageLoadingState extends CreateOrderState {
+  @override
+  String toString() => 'UpdateImageLoadingState';
+}
+
+class UpdateImageSuccessState extends CreateOrderState {
+  @override
+  String toString() => 'UpdateImageSuccessState';
+}
+
+class UpdateImageErrorState extends CreateOrderState {
+  final String error;
+
+  UpdateImageErrorState(this.error);
+
+  @override
+  String toString() => 'UpdateImageErrorState(error: $error)';
 }

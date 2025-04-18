@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 import '../../theme/app_colors.dart';
-
 
 class OtpScreen extends StatefulWidget {
   const OtpScreen({Key? key}) : super(key: key);
@@ -24,7 +22,6 @@ class _OtpScreenState extends State<OtpScreen> {
   String otp = "";
   String? email;
 
-
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -32,12 +29,12 @@ class _OtpScreenState extends State<OtpScreen> {
     if (args != null) {
       email = args.toString();
       print("otpScreen  ${email}");
-
     } else {
       // Handle the case when args is null
       print('No arguments provided');
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,16 +45,14 @@ class _OtpScreenState extends State<OtpScreen> {
           "Otp Screen",
           style: TextStyle(color: Colors.black, fontSize: 18),
         ),
-
       ),
       body: Center(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(24.0),
           child: Column(
-        //    crossAxisAlignment: CrossAxisAlignment.center,
+            //    crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-
               SizedBox(height: 16),
               _buildErrorMessages(),
               SizedBox(height: 20),
@@ -68,7 +63,10 @@ class _OtpScreenState extends State<OtpScreen> {
               SizedBox(height: 24),
               Text(
                 'Verification',
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.grey[800]),
+                style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.grey[800]),
               ),
               SizedBox(height: 8),
               Text(
@@ -81,15 +79,18 @@ class _OtpScreenState extends State<OtpScreen> {
               SizedBox(height: 24),
               Text(
                 "Didn't receive a code?",
-                style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.grey[600]),
+                style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.grey[600]),
               ),
               SizedBox(height: 16),
-           //   _buildResendButton(context),
+              //   _buildResendButton(context),
             ],
           ),
         ),
       ),
-    /*  bottomNavigationBar: Padding(
+      /*  bottomNavigationBar: Padding(
         padding: const EdgeInsets.only(bottom: 24.0),
         child: _buildVerifyButton(context),
       ),*/
@@ -106,7 +107,9 @@ class _OtpScreenState extends State<OtpScreen> {
         if (detailsError != null)
           Text(detailsError!, style: const TextStyle(color: Colors.red)),
         if (otpError != null)
-          Center(child: Text(otpError!, style: const TextStyle(color: Colors.red))),
+          Center(
+              child:
+                  Text(otpError!, style: const TextStyle(color: Colors.red))),
       ],
     );
   }
@@ -246,7 +249,9 @@ class _OtpScreenState extends State<OtpScreen> {
 
   void _dismissLoadingDialog() {
     if (_isLoading && _dialogContext != null) {
-      Navigator.of(_dialogContext!, rootNavigator: true).pop();
+      Navigator.of(
+        _dialogContext!,
+      ).pop();
       _isLoading = false;
       _dialogContext = null;
     }

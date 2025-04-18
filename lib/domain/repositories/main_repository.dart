@@ -2,8 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-
-
 import 'package:dio/dio.dart';
 import 'package:untitled/domain/models/external_file_upload_models/external_file_upload_request.dart';
 import 'package:untitled/domain/models/external_file_upload_models/external_file_upload_response.dart';
@@ -17,6 +15,8 @@ import 'package:http_parser/http_parser.dart'; // ✅ Ensure this is imported
 import '../exceptions/login_exception.dart';
 import '../models/create_order_models/create_order_request.dart';
 import '../models/create_order_models/create_order_response.dart';
+import '../models/edit_profile_models/edit_profile_request.dart';
+import '../models/edit_profile_models/edit_profile_response.dart';
 import '../models/edit_template_models/edit_template_request.dart';
 import '../models/edit_template_models/edit_template_response.dart';
 import '../models/log_out_models/log_out_request.dart';
@@ -37,19 +37,15 @@ import '../models/student_form_models/student_form_request.dart';
 import '../models/student_form_models/student_form_response.dart';
 import '../models/template_models/template_response.dart';
 
-
 class MainRepository {
   final ApiService apiService = ApiService();
 
-
   Future<ChangePasswordResponse> postChangePassword(
-      ChangePasswordRequest request) async
-  {
+      ChangePasswordRequest request) async {
     var data = request.toJson();
     try {
-      final response = await apiService.sendRequest.post(ApiService.newPasswordResponse,
-          data: jsonEncode(data)
-      );
+      final response = await apiService.sendRequest
+          .post(ApiService.newPasswordResponse, data: jsonEncode(data));
       return ChangePasswordResponse.fromJson(response.data);
     } catch (e) {
       throw LoginExceptionHandler.handleException(e);
@@ -60,22 +56,20 @@ class MainRepository {
     var data = request.toJson();
 
     try {
-      final response = await apiService.sendRequest.post(
-          ApiService.login, data: jsonEncode(data));
+      final response = await apiService.sendRequest
+          .post(ApiService.login, data: jsonEncode(data));
       return LoginResponse.fromJson(response.data);
     } catch (e) {
       throw LoginExceptionHandler.handleException(e);
     }
   }
 
-
-  Future<NewPasswordResponse> postNewPassword(NewPasswordRequest request) async
-  {
+  Future<NewPasswordResponse> postNewPassword(
+      NewPasswordRequest request) async {
     var data = request.toJson();
     try {
-      final response = await apiService.sendRequest.post(ApiService.newPasswordResponse,
-          data: jsonEncode(data)
-      );
+      final response = await apiService.sendRequest
+          .post(ApiService.newPasswordResponse, data: jsonEncode(data));
       return NewPasswordResponse.fromJson(response.data);
     } catch (e) {
       throw LoginExceptionHandler.handleException(e);
@@ -84,33 +78,31 @@ class MainRepository {
 
   Future<TemplateResponse> fetchTemplates() async {
     try {
-      final response = await apiService.sendRequest.post(ApiService.templateResponse);
+      final response =
+          await apiService.sendRequest.post(ApiService.templateResponse);
       return TemplateResponse.fromJson(response.data);
     } catch (e) {
       throw Exception('Failed to fetch templates: $e');
     }
   }
 
-
-
-  Future<StudentFormResponse> postStudentForm(StudentFormRequest request) async {
+  Future<StudentFormResponse> postStudentForm(
+      StudentFormRequest request) async {
     var data = request.toJson();
 
     try {
-      final response = await apiService.sendRequest.post(
-          ApiService.studentFormResponse, data: jsonEncode(data));
+      final response = await apiService.sendRequest
+          .post(ApiService.studentFormResponse, data: jsonEncode(data));
       return StudentFormResponse.fromJson(response.data);
     } catch (e) {
       throw LoginExceptionHandler.handleException(e);
     }
   }
 
-
-
-
   Future<ProfileResponse> fetchProfile() async {
     try {
-      final response = await apiService.sendRequest.get(ApiService.profileResponse);
+      final response =
+          await apiService.sendRequest.get(ApiService.profileResponse);
       print("profile ${response}");
       return ProfileResponse.fromJson(response.data);
     } catch (e) {
@@ -118,16 +110,15 @@ class MainRepository {
     }
   }
 
-
-  Future<CreateOrderResponse> postCreateOrder(CreateOrderRequest request) async {
+  Future<CreateOrderResponse> postCreateOrder(
+      CreateOrderRequest request) async {
     var data = request.toJson();
 
     try {
-      final response = await apiService.sendRequest.post(ApiService.createOrderResponse,
-      data : jsonEncode(data));
+      final response = await apiService.sendRequest
+          .post(ApiService.createOrderResponse, data: jsonEncode(data));
 
       return CreateOrderResponse.fromJson(response.data);
-
     } catch (e) {
       throw Exception('Error fetching profile: $e');
     }
@@ -135,7 +126,8 @@ class MainRepository {
 
   Future<OrderHistory> postOrderHistory({required String schoolID}) async {
     try {
-      final response = await apiService.sendRequest.post(ApiService.orderHistoryResponse,
+      final response = await apiService.sendRequest.post(
+          ApiService.orderHistoryResponse,
           data: {"schoolId": schoolID}); // Passing key in the request body);
       print("profile ${response}");
       return OrderHistory.fromJson(response.data);
@@ -144,13 +136,11 @@ class MainRepository {
     }
   }
 
-
   Future<LogoutResponse> logout(LogoutRequest request) async {
-
     var data = request.toJson();
     try {
-      final response = await apiService.sendRequest.post(ApiService.logout,
-      data: jsonEncode(data));
+      final response = await apiService.sendRequest
+          .post(ApiService.logout, data: jsonEncode(data));
       print("logoutResponse ${response}");
       if (response.data != null) {
         await PreferencesUtil.clear();
@@ -164,14 +154,14 @@ class MainRepository {
     }
   }
 
-
-
-  Future<EditTemplateResponse> postEditTemplate(EditTemplateRequest request, String schoolId) async {
+  Future<EditTemplateResponse> postEditTemplate(
+      EditTemplateRequest request, String schoolId) async {
     try {
       // Ensure the file exists before sending
       File file = File(request.template.path);
       if (!file.existsSync()) {
-        throw Exception("❌ File does not exist at path: ${request.template.path}");
+        throw Exception(
+            "❌ File does not exist at path: ${request.template.path}");
       }
 
       // 🔹 Read the HTML content and print it before uploading
@@ -184,8 +174,26 @@ class MainRepository {
         "template": await MultipartFile.fromFile(
           request.template.path,
           filename: "modified_template.html",
-          contentType: MediaType('text', 'html'), // ✅ Ensuring correct file type
+          contentType:
+              MediaType('text', 'html'), // ✅ Ensuring correct file type
         ),
+        if (request.templateBack != null)
+          'templateBack': await MultipartFile.fromFile(
+            request.templateBack!.path,
+            filename: "modified_template_back.html", // Use a relevant filename
+            contentType: MediaType('text', 'html'),
+          ),
+        'thumbnailFront': MultipartFile.fromBytes(
+          request.frontImage,
+          filename: "${DateTime.now().millisecondsSinceEpoch}_front.png",
+          contentType: MediaType('image', 'png'),
+        ),
+        if (request.backImage != null)
+          'thumbnailBack': MultipartFile.fromBytes(
+            request.backImage!,
+            filename: "${DateTime.now().millisecondsSinceEpoch}_back.png",
+            contentType: MediaType('image', 'png'),
+          )
       });
 
       // Send request
@@ -204,17 +212,14 @@ class MainRepository {
     }
   }
 
-
-
-
-
-  Future<ExternalUploadFileResponse> uploadFile(ExternalUploadFileRequest request) async {
+  Future<ExternalUploadFileResponse> uploadFile(
+      ExternalUploadFileRequest request) async {
     try {
-
       FormData formData = await request.toFormData();
 
       final response = await apiService.sendRequest.post(
-        ApiService.uploadExternalFileResponse   , // Replace with your actual API endpoint
+        ApiService
+            .uploadExternalFileResponse, // Replace with your actual API endpoint
         data: formData,
         options: Options(headers: {"Content-Type": "multipart/form-data"}),
       );
@@ -237,7 +242,7 @@ class MainRepository {
         'page': page.toString(),
         'limit': limit.toString(),
         'orderId': orderId,
-       // Static search value
+        // Static search value
       };
 
       final response = await apiService.sendRequest.get(
@@ -252,12 +257,17 @@ class MainRepository {
     }
   }
 
+  Future<EditProfileResponse> postEditProfile(
+      EditProfileRequest request) async {
+    var data = request.toJson();
 
+    try {
+      final response = await apiService.sendRequest
+          .post(ApiService.editProfileResponse, data: jsonEncode(data));
 
-
-
-
-
-
+      return EditProfileResponse.fromJson(response.data);
+    } catch (e) {
+      throw Exception('Error fetching profile: $e');
+    }
+  }
 }
-

@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:untitled/presentation/bloc/upload_file_bloc/upload_file_state.dart';
+import 'package:untitled/presentation/screen/student_form/student_form_screen.dart';
 
 import '../../../domain/exceptions/login_exception.dart';
 
@@ -15,15 +16,17 @@ class UploadFileCubit extends Cubit<UploadFileState> {
 
   final MainRepository _mainRepository = MainRepository();
 
-  Future<void> fetchUploadedFiles({required ExternalUploadFileRequest request}) async {
+  Future<void> fetchUploadedFiles(
+      {required ExternalUploadFileRequest request,
+      ImageMapperEnum? key}) async {
     try {
       emit(UploadFileLoadingState());
-      ExternalUploadFileResponse uploadFileResponse = await _mainRepository.uploadFile(request);
+      ExternalUploadFileResponse uploadFileResponse =
+          await _mainRepository.uploadFile(request);
 
-      await Future.delayed(Duration(seconds: 2));
-      emit(UploadFileSuccessState(uploadFileResponse));
+      emit(UploadFileSuccessState(uploadFileResponse, key));
     } catch (error) {
-
+      emit(UploadFileErrorState("An error occurred. Please try again."));
     }
   }
 }

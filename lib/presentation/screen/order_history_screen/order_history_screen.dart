@@ -1,5 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 import '../../../data/data_sources/local/preference_utils.dart';
@@ -15,7 +17,6 @@ class OrderHistoryScreen extends StatefulWidget {
 }
 
 class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
-  int _selectedIndex = 2;
   String? studentId;
 
   @override
@@ -31,7 +32,7 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
       appBar: AppBar(
         title: Text(
           "Order History",
-          style: TextStyle(
+          style: GoogleFonts.poppins(
             color: Colors.black,
             fontSize: 22,
             fontWeight: FontWeight.w500,
@@ -39,17 +40,20 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
           textAlign: TextAlign.center,
         ),
         centerTitle: true,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios, color: Colors.black),
-          onPressed: () {
-            // Handle back navigation
-          },
-        ),
+        leading: ModalRoute.of(context)?.impliesAppBarDismissal == true
+            ? IconButton(
+                icon: Icon(Icons.arrow_back_ios, color: Colors.black),
+                onPressed: () {
+                  Navigator.maybePop(context);
+                },
+              )
+            : null,
         backgroundColor: Colors.white,
       ),
       body: BlocBuilder<OrderHistoryCubit, OrderHistoryState>(
         builder: (context, state) {
-          if (state is OrderHistoryLoadingState || state is OrderHistoryRequestLoadingState) {
+          if (state is OrderHistoryLoadingState ||
+              state is OrderHistoryRequestLoadingState) {
             return const Center(child: CircularProgressIndicator());
           } else if (state is OrderHistorySuccessState) {
             final orders = state.response.data.orders;
@@ -70,20 +74,17 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
           }
         },
       ),
-      bottomNavigationBar: BottomNavigationWidget(
-        selectedIndex: _selectedIndex,
-        onItemTapped: _onItemTapped,
-      ),
     );
   }
 
   Widget _buildOrderCard(order) {
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         Navigator.of(context).pushNamed(
           PageRoutes.orderDetailsPreviewScreen,
           arguments: {
-            'imageUrl': 'https://idcardprojectapis.logicaldottech.com/thumbnails/${order?.thumbnailfileNameFront}',
+            'imageUrl':
+                'https://api.todaystrends.site/thumbnails/${order?.thumbnailfileNameFront}',
             'id': order.id.toString(),
           },
         );
@@ -94,7 +95,10 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
           color: Colors.white,
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
-            BoxShadow(color: Colors.grey.withOpacity(0.3), blurRadius: 6, spreadRadius: 2),
+            BoxShadow(
+                color: Colors.grey.withOpacity(0.3),
+                blurRadius: 6,
+                spreadRadius: 2),
           ],
         ),
         child: Stack(
@@ -122,12 +126,15 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
               child: Column(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.all(16),
+                    padding: const EdgeInsets.only(right: 12, top: 12),
                     child: Align(
                       alignment: Alignment.topRight,
                       child: Text(
                         _formatDate(order?.createdAt),
-                        style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: Colors.black),
+                        style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.black),
                       ),
                     ),
                   ),
@@ -138,19 +145,25 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
                         borderRadius: BorderRadius.circular(8),
                         child: _buildOrderImage(order?.thumbnailfileNameFront),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(12),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            // Date at Top Right
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.all(12),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // Date at Top Right
 
-                            const SizedBox(height: 4),
-                            _buildText("Order ID", order?.id, color : Color(0XFF7653F6)),
-                            _buildText("Order Status", order?.status, color: Color(0XFF7653F6)),
-                            _buildText("Order Type", order?.orderType, color: Color(0XFF7653F6)),
-                            _buildText("Qty", "${order?.totalItems} pcs.", color: Color(0XFF7653F6)),
-                          ],
+                              const SizedBox(height: 4),
+                              _buildText("Order ID", order?.id,
+                                  color: Color(0XFF7653F6)),
+                              _buildText("Order Status", order?.status,
+                                  color: Color(0XFF7653F6)),
+                              _buildText("Order Type", order?.orderType,
+                                  color: Color(0XFF7653F6)),
+                              _buildText("Qty", "${order?.totalItems} pcs.",
+                                  color: Color(0XFF7653F6)),
+                            ],
+                          ),
                         ),
                       ),
                     ],
@@ -158,14 +171,11 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
                 ],
               ),
             ),
-
-
           ],
         ),
       ),
     );
   }
-
 
   // Helper function to handle image display
   // Helper function to handle image display
@@ -182,16 +192,15 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
             borderRadius: BorderRadius.circular(8),
             color: Colors.grey[300], // Background in case of delay
           ),
-          child: Image.network(
-            'https://idcardprojectapis.logicaldottech.com/thumbnails/$imageUrl',
+          child: CachedNetworkImage(
+            imageUrl: 'https://api.todaystrends.site/thumbnails/$imageUrl',
             width: 80,
             height: 100,
             fit: BoxFit.fill, // Crops and fills container properly
-            loadingBuilder: (context, child, loadingProgress) {
-              if (loadingProgress == null) return child;
-              return Center(child: CircularProgressIndicator());
+            progressIndicatorBuilder: (context, child, loadingProgress) {
+              return const Center(child: CircularProgressIndicator());
             },
-            errorBuilder: (context, error, stackTrace) => _buildPlaceholder(),
+            errorWidget: (context, error, stackTrace) => _buildPlaceholder(),
           ),
         ),
       );
@@ -210,16 +219,10 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
       ),
       child: const Text(
         "",
-        style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.black),
+        style: TextStyle(
+            fontSize: 14, fontWeight: FontWeight.bold, color: Colors.black),
       ),
     );
-  }
-
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
   }
 
   void _fetchOrderHistory() {
@@ -235,7 +238,8 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
     });
   }
 
-  Widget _buildText(String label, String? value, {Color? color, bool isLink = false}) {
+  Widget _buildText(String label, String? value,
+      {Color? color, bool isLink = false}) {
     if (value == null || value.isEmpty) return const SizedBox.shrink();
     return Padding(
       padding: const EdgeInsets.only(bottom: 6),
@@ -243,14 +247,17 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
         text: TextSpan(
           style: const TextStyle(fontSize: 16, color: Colors.black),
           children: [
-            TextSpan(text: "$label: ", style: const TextStyle(fontWeight: FontWeight.bold)),
             TextSpan(
-              text: value.length > 18? '${value.substring(0, 18)}...' : value,
+                text: "$label: ",
+                style: const TextStyle(fontWeight: FontWeight.bold)),
+            TextSpan(
+              text: value.length > 18 ? '${value.substring(0, 18)}...' : value,
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: isLink ? FontWeight.w500 : FontWeight.normal,
                 color: color ?? Colors.black,
-                decoration: isLink ? TextDecoration.underline : TextDecoration.none,
+                decoration:
+                    isLink ? TextDecoration.underline : TextDecoration.none,
               ),
             ),
           ],

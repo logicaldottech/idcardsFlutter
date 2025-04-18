@@ -1,7 +1,12 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:untitled/data/data_sources/local/database_helper.dart';
+import 'package:untitled/data/data_sources/local/preference_utils.dart';
 import 'package:untitled/domain/models/log_out_models/log_out_request.dart';
 import 'package:untitled/domain/models/profile_models/profile_request.dart';
+import 'package:untitled/utils/loading_animation.dart';
+import 'package:untitled/utils/vl_toast.dart';
 
 import '../../../domain/models/profile_models/profile_response.dart';
 import '../../../navigation/page_routes.dart';
@@ -10,7 +15,6 @@ import '../../bloc/logout_bloc/logout_cubit.dart';
 import '../../bloc/logout_bloc/logout_state.dart';
 import '../../bloc/profile_bloc/profile_cubit.dart';
 import '../../bloc/profile_bloc/profile_state.dart';
-
 
 /*
 class ProfileScreen extends StatefulWidget {
@@ -39,7 +43,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.pop(context);
+             Navigator.maybePop(context);;
           },
         ),
         title: Text("My Profile"),
@@ -110,7 +114,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           listener: (context, state) {
             if (state is LogoutSuccessState) {
               // Navigate to Login Screen after logout success
-              Navigator.of(context, rootNavigator: true).pushNamed(PageRoutes.login);
+              Navigator.of(context, ).pushNamed(PageRoutes.login);
 
             } else if (state is LogoutErrorState) {
               // Show error message on failure
@@ -135,7 +139,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
 
           buildProfileOption(Icons.history, "Order history", onTap: () {
-            Navigator.of(context, rootNavigator: true).pushNamed(PageRoutes.orderHistory);
+            Navigator.of(context, ).pushNamed(PageRoutes.orderHistory);
           }),
         ],
       ),
@@ -192,18 +196,10 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-
-  int _selectedIndex = 1;
   @override
   void initState() {
     super.initState();
     context.read<ProfileCubit>().fetchProfile();
-  }
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-
   }
 
   @override
@@ -211,10 +207,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Scaffold(
       backgroundColor: Color(0xFFF9F9F9),
       appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => Navigator.pop(context),
-        ),
+        leading: ModalRoute.of(context)?.impliesAppBarDismissal == true
+            ? IconButton(
+                icon: Icon(Icons.arrow_back, color: Colors.black),
+                onPressed: () => Navigator.maybePop(context),
+              )
+            : null,
         title: Text(
           'My Profile',
           style: GoogleFonts.nunitoSans(color: Colors.black),
@@ -225,61 +223,34 @@ class _ProfileScreenState extends State<ProfileScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-
             SizedBox(height: 60),
-
-            Center(
-              child: Stack(
-                children: [
-                  GestureDetector(
-                    onTap : (){
-                          showCustomBottomSheet(
-                  context,
-                  onRecentPictures: () {},
-                  onSelectFromGallery: () {},
-                  onSelectFromLocalFiles: () {},
-                );
-                    },
-                      child: CircleAvatar(radius: 50, backgroundColor: Colors.grey[300])),
-                  Positioned(
-                    bottom: 0,
-                    right: 0,
-                    child: Container(
-                      padding: EdgeInsets.all(6),
-                      decoration: BoxDecoration(
-                        color: Color(0xFFF7653F6),
-                        shape: BoxShape.circle,
-                      ),
-                      child: Icon(
-                        Icons.camera_alt,
-                        color: Colors.white,
-                        size: 20,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
             BlocBuilder<ProfileCubit, ProfileState>(
+              buildWhen: (previous, current) {
+                return current is ProfileSuccessState ||
+                    current is ProfileRequestLoadingState ||
+                    current is ProfileErrorState;
+              },
               builder: (context, state) {
-                if (state is ProfileLoadingState) {
-                  return Center(child: CircularProgressIndicator());
-                } else if (state is ProfileSuccessState) {
-                  return buildProfileUI(state.response);
-                } else if (state is ProfileErrorState) {
-                  return Center(child: Text("Error: ${state.error}"));
+                if (state is ProfileRequestLoadingState) {
+                  return const LoadingAnimation();
+                }
+                final currentUser = context.read<ProfileCubit>().currentUser;
+                if (currentUser != null) {
+                  return buildProfileUI(currentUser);
                 } else {
                   return Center(child: Text("No data available"));
                 }
               },
             ),
-
             SizedBox(height: 100),
             ProfileMenuItem(
               icon: Icons.edit,
               text: 'Edit Profile',
               onTap: () {
-            //    showLoginSuccessBottomSheet(context);
+                Navigator.of(
+                  context,
+                ).pushNamed(PageRoutes.editProfileScreen);
+                //    showLoginSuccessBottomSheet(context);
               },
             ),
             SizedBox(height: 20),
@@ -287,8 +258,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
               icon: Icons.password,
               text: 'Change Password',
               onTap: () {
-                Navigator.of(context, rootNavigator: true).pushNamed(PageRoutes.changePasswordScreen);
-             //   showActionRequiredPopup(context);
+                Navigator.of(
+                  context,
+                ).pushNamed(PageRoutes.changePasswordScreen);
+                //   showActionRequiredPopup(context);
               },
               showTrailingIcon: true,
             ),
@@ -339,54 +312,78 @@ class _ProfileScreenState extends State<ProfileScreen> {
             SizedBox(height: 20),
             BlocConsumer<LogoutCubit, LogoutState>(
               listener: (context, state) {
+                if (state is LogoutRequestLoadingState) {
+                  LoadingAnimation.show(context);
+                }
                 if (state is LogoutSuccessState) {
+                  LoadingAnimation.hide(context);
                   // Navigate to Login Screen after logout success
-                  Navigator.of(context, rootNavigator: true).pushNamed(PageRoutes.login);
-
+                  PreferencesUtil.clear();
+                  DatabaseHelper.instance.deleteDatabaseFile();
+                  Navigator.of(
+                    context,
+                  ).pushNamedAndRemoveUntil(PageRoutes.login, (route) => false);
                 } else if (state is LogoutErrorState) {
                   // Show error message on failure
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text(state.errorResponse.toString())),
-                  );
+                  LoadingAnimation.hide(context);
+                  ToastUtils.showErrorToast(state.errorResponse.toString());
                 }
               },
               builder: (context, state) {
                 return ProfileMenuItem(
-                 icon : Icons.logout,
-                  text : "Logout",
+                  icon: Icons.logout,
+                  text: "Logout",
                   onTap: () {
                     final deviceToken = "deviceToken"; // Fetch actual token
-                    context.read<LogoutCubit>().logouts(logoutRequest: LogoutRequest(deviceToken: deviceToken));
+                    context.read<LogoutCubit>().logouts(
+                        logoutRequest: LogoutRequest(deviceToken: deviceToken));
                   },
-
                 );
               },
             ),
-
           ],
         ),
-      ),
-      bottomNavigationBar: BottomNavigationWidget(
-        selectedIndex: _selectedIndex,
-        onItemTapped: _onItemTapped,
       ),
     );
   }
 
   Widget buildProfileUI(ProfileResponse response) {
-    return Column(children: [
-      Text(
-        '${response.data.fullName}',
-        style: GoogleFonts.nunitoSans(
-          fontSize: 24,
-          fontWeight: FontWeight.bold,
+    print("profileresponse ${response.data.logo}");
+    return Column(
+      children: [
+        Center(
+          child: CircleAvatar(
+            radius: 50,
+            backgroundColor: Colors.grey[300],
+            child: ClipOval(
+              child: response.data.logo != null &&
+                      response.data.logo!.isNotEmpty
+                  ? CachedNetworkImage(
+                      imageUrl: response.data.logo!,
+                      width: 100,
+                      height: 100,
+                      fit: BoxFit.cover,
+                      errorWidget: (context, error, stackTrace) =>
+                          Icon(Icons.person, size: 50, color: Colors.grey[600]),
+                    )
+                  : Icon(Icons.person, size: 50, color: Colors.grey[600]),
+            ),
+          ),
         ),
-      ),
-      Text(
-        '${response.data.address}',
-        style: GoogleFonts.nunitoSans(fontSize: 16, color: Colors.grey),
-      ),
-    ],);
+        SizedBox(height: 10),
+        Text(
+          response.data.fullName ?? 'No Name',
+          style: GoogleFonts.nunitoSans(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        Text(
+          response.data.email ?? 'No Email',
+          style: GoogleFonts.nunitoSans(fontSize: 16, color: Colors.grey),
+        ),
+      ],
+    );
   }
 }
 

@@ -18,6 +18,11 @@ class LoginSuccessState extends LoginState {
   String toString() => 'LoginSuccessState(response: $response)';
 }
 
+class ChangePasswordState extends LoginState {
+  @override
+  String toString() => 'ChangePasswordState()';
+}
+
 // State for general login errors
 class LoginErrorState extends LoginState {
   final String? error;
@@ -37,6 +42,7 @@ class LoginFieldErrorState extends LoginState {
   @override
   String toString() => 'LoginFieldErrorState(fieldErrors: $fieldErrors)';
 }
+
 class LoginNonFieldErrorState extends LoginState {
   final Map<String, List<String>>? nonFieldErrors;
 
@@ -45,6 +51,7 @@ class LoginNonFieldErrorState extends LoginState {
   @override
   String toString() => 'LoginFieldErrorState(fieldErrors: $nonFieldErrors)';
 }
+
 class LoginGeneralFieldErrorState extends LoginState {
   final Map<String, List<String>>? generalFieldErrors;
 

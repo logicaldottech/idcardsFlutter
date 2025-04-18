@@ -12,19 +12,16 @@ class ProfileCubit extends Cubit<ProfileState> {
   ProfileCubit() : super(ProfileLoadingState());
 
   final MainRepository _mainRepository = MainRepository();
-
-  Future<void> fetchProfile( ) async {
+  ProfileResponse? get currentUser => _currentUser;
+  ProfileResponse? _currentUser;
+  Future<void> fetchProfile() async {
     try {
       emit(ProfileRequestLoadingState());
-      ProfileResponse? profileResponse = await _mainRepository.fetchProfile(
-
-      );
+      ProfileResponse? profileResponse = await _mainRepository.fetchProfile();
+      _currentUser = profileResponse;
       emit(ProfileSuccessState(profileResponse));
-
     } catch (error, stackTrace) {
-
       emit(ProfileErrorState("An error occurred. Please try again."));
     }
   }
-
 }

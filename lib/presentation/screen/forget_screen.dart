@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-
 class ForgetScreen extends StatefulWidget {
   const ForgetScreen({super.key});
 
@@ -18,8 +17,6 @@ class _ForgetScreenState extends State<ForgetScreen> {
   String? nonFieldError;
   final TextEditingController emailController = TextEditingController();
 
-
-
   @override
   Widget build(BuildContext context) {
     // Set preferred orientations (optional)
@@ -32,35 +29,32 @@ class _ForgetScreenState extends State<ForgetScreen> {
         overlays: SystemUiOverlay.values);
 
     return Scaffold(
-
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          title: const Text(
-            "Forgot Password",
-            style: TextStyle(color: Colors.black, fontSize: 18),
-          ),
-
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        title: const Text(
+          "Forgot Password",
+          style: TextStyle(color: Colors.black, fontSize: 18),
         ),
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const SizedBox(height: 16),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
-              child: Image.asset(
-                'assets/cloudberrylogo.png',
-                height: 50,
-              ),
+      ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const SizedBox(height: 16),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+            child: Image.asset(
+              'assets/cloudberrylogo.png',
+              height: 50,
             ),
-         //   const SizedBox(height: 24),
-            //_header(context),
+          ),
+          //   const SizedBox(height: 24),
+          //_header(context),
 
-            _inputField(context),
-
-          ],
-        ),
- /*       bottomNavigationBar:  Padding(
+          _inputField(context),
+        ],
+      ),
+      /*       bottomNavigationBar:  Padding(
           padding: const EdgeInsets.only(bottom: 32.0),
           child: BlocConsumer<ChangePasswordCubit, ChangePasswordState>(
             listener: (context, state) async {
@@ -96,7 +90,7 @@ class _ForgetScreenState extends State<ForgetScreen> {
               } else if (state is ChangePasswordSuccessState) {
                 _dismissLoadingDialog();
                 await Future.delayed(Duration(milliseconds: 200));
-                Navigator.of(context, rootNavigator: true)
+                Navigator.of(context, )
                     .pushNamed(PageRoutes.Otp, arguments: emailController.text.toString());
               }
             },
@@ -132,8 +126,7 @@ class _ForgetScreenState extends State<ForgetScreen> {
             },
           ),
         ),*/
-      );
-
+    );
   }
 
   _header(context) {
@@ -177,7 +170,6 @@ class _ForgetScreenState extends State<ForgetScreen> {
               filled: true,
               errorText: emailError,
               prefixIcon: const Icon(Icons.person),
-
             ),
           ),
           const SizedBox(height: 10),
@@ -188,7 +180,9 @@ class _ForgetScreenState extends State<ForgetScreen> {
 
   void _dismissLoadingDialog() {
     if (_isLoading != null && _dialogContext != null) {
-      Navigator.of(_dialogContext!, rootNavigator: true).pop();
+      Navigator.of(
+        _dialogContext!,
+      ).pop();
       _isLoading = false;
     }
   }

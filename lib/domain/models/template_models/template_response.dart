@@ -19,7 +19,9 @@ class TemplateData {
 
   factory TemplateData.fromJson(Map<String, dynamic> json) {
     return TemplateData(
-      templates: (json['templates'] as List?)?.map((e) => Template.fromJson(e)).toList(),
+      templates: (json['templates'] as List?)
+          ?.map((e) => Template.fromJson(e))
+          .toList(),
     );
   }
 }
@@ -35,6 +37,7 @@ class Template {
   final int? isProfessional;
   final String? backFileName;
   final String? templateType;
+  final String? xlsFileName;
   final String? type;
   final String? status;
   final int? isDeleted;
@@ -65,31 +68,54 @@ class Template {
     this.orientation,
     this.createdAt,
     this.updatedAt,
+    this.xlsFileName,
   });
 
   factory Template.fromJson(Map<String, dynamic> json) {
     return Template(
-      id: json['_id'],
-      templateName: json['templateName'],
-      fileName: json['fileName'],
-      templateFields: (json['templateFields'] as List?)?.map((e) => e.toString()).toList(),
-      templateBackFields: (json['templateBackFields'] as List?)?.map((e) => e.toString()).toList(),
-      imageFields: json['imageFields'] != null ? ImageFields.fromJson(json['imageFields']) : null,
-      thumbnailfileNameFront: json['thumbnailfileNameFront'],
-      thumbnailfileNameBack: json['thumbnailfileNameBack'] ,
-      backImageFields: json['backImageFields'] != null ? ImageFields.fromJson(json['backImageFields']) : null,
-      isProfessional: json['isProfessional'],
-      backFileName: json['backFileName'],
-      templateType: json['templateType'],
-      type: json['Type'],
-      status: json['status'],
-      isDeleted: json['isDeleted'],
-      uploadedAt: json['uploadedAt'],
-      orientation: json['orientation'],
-      createdAt: json['createdAt'],
-      updatedAt: json['updatedAt'],
-    );
+        id: json['_id'],
+        templateName: json['templateName'],
+        fileName: json['fileName'],
+        templateFields: (json['templateFields'] as List?)
+            ?.map((e) => e.toString())
+            .toList(),
+        templateBackFields: (json['templateBackFields'] as List?)
+            ?.map((e) => e.toString())
+            .toList(),
+        imageFields: json['imageFields'] != null
+            ? ImageFields.fromJson(json['imageFields'])
+            : null,
+        thumbnailfileNameFront: json['thumbnailfileNameFront'],
+        thumbnailfileNameBack: json['thumbnailfileNameBack'],
+        backImageFields: json['backImageFields'] != null
+            ? ImageFields.fromJson(json['backImageFields'])
+            : null,
+        isProfessional: json['isProfessional'],
+        backFileName: json['backFileName'],
+        templateType: json['templateType'],
+        type: json['Type'],
+        status: json['status'],
+        isDeleted: json['isDeleted'],
+        uploadedAt: json['uploadedAt'],
+        orientation: json['orientation'],
+        createdAt: json['createdAt'],
+        updatedAt: json['updatedAt'],
+        xlsFileName: json['xlsFileName']);
   }
+
+  bool get isPortait => !(orientation == "horizontal");
+
+  String get imageUrl =>
+      "https://api.todaystrends.site/thumbnails/$thumbnailfileNameFront";
+  String get backImageUrl =>
+      "https://api.todaystrends.site/thumbnails/$thumbnailfileNameBack";
+  String? get edittemplateimageUrl => fileName != null
+      ? "https://api.todaystrends.site/templates/$fileName"
+      : null;
+  String? get edittemplateBackUrl => backFileName != null
+      ? "https://api.todaystrends.site/templates/$backFileName"
+      : null;
+  // String? get excelFileUrl =
 }
 
 class ImageFields {

@@ -16,12 +16,18 @@ class OrderData {
   final String? orderId;
   final List<OrderItem>? data;
   final Pagination? pagination;
-
-  OrderData({this.orderId, this.data, this.pagination});
+  final bool isPortrait;
+  OrderData({
+    this.orderId,
+    this.data,
+    this.pagination,
+    required this.isPortrait,
+  });
 
   factory OrderData.fromJson(Map<String, dynamic> json) {
     return OrderData(
       orderId: json['OrderId'] as String?,
+      isPortrait: json['Orientation'] == "vertical",
       data: (json['Data'] as List?)
           ?.map((item) => OrderItem.fromJson(item))
           .toList(),
@@ -35,14 +41,21 @@ class OrderData {
 class OrderItem {
   final int? srNo;
   final String? processedFilesWatermarked;
+  final String? processedBackFilesWatermarked;
   final String? studentName;
 
-  OrderItem({this.srNo, this.processedFilesWatermarked, this.studentName});
+  OrderItem(
+      {this.srNo,
+      this.processedFilesWatermarked,
+      this.processedBackFilesWatermarked,
+      this.studentName});
 
   factory OrderItem.fromJson(Map<String, dynamic> json) {
     return OrderItem(
       srNo: json['SrNo'] as int?,
       processedFilesWatermarked: json['processedFilesWatermarked'] as String?,
+      processedBackFilesWatermarked:
+          json['processedBackFilesWatermarked'] as String?,
       studentName: json['StudentName'] as String?,
     );
   }
