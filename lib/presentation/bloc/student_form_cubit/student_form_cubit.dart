@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:untitled/data/data_sources/local/database_helper.dart';
+import 'package:pride/data/data_sources/local/database_helper.dart';
 import '../../../data/data_sources/local/preference_utils.dart';
 
 import '../../../domain/exceptions/login_exception.dart';

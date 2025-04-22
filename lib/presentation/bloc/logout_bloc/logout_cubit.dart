@@ -1,11 +1,10 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:untitled/domain/models/log_out_models/log_out_request.dart';
-import 'package:untitled/domain/models/loginModels/login_request.dart';
+import 'package:pride/domain/models/log_out_models/log_out_request.dart';
+import 'package:pride/domain/models/loginModels/login_request.dart';
 
 import '../../../domain/models/log_out_models/log_out_response.dart';
 import '../../../domain/repositories/main_repository.dart';
 import 'logout_state.dart';
-
 
 class LogoutCubit extends Cubit<LogoutState> {
   LogoutCubit() : super(LogoutLoadingState());
@@ -20,7 +19,8 @@ class LogoutCubit extends Cubit<LogoutState> {
 
       emit(LogoutSuccessState(logoutResponse!));
     } catch (error) {
-      emit(LogoutErrorState(logoutResponse?.message ?? "Unknown Network issue"));
+      emit(
+          LogoutErrorState(logoutResponse?.message ?? "Unknown Network issue"));
     }
   }
 }

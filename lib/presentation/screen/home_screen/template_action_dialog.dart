@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:untitled/domain/models/template_models/template_response.dart';
-import 'package:untitled/navigation/page_routes.dart';
-import 'package:untitled/presentation/screen/student_form/student_form_screen.dart';
-import 'package:untitled/theme/app_colors.dart';
+import 'package:pride/domain/models/template_models/template_response.dart';
+import 'package:pride/navigation/page_routes.dart';
+import 'package:pride/presentation/screen/student_form/student_form_screen.dart';
+import 'package:pride/theme/app_colors.dart';
 
 class TemplateActionDialog extends StatelessWidget {
   final Template template;

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:untitled/utils/loading_animation.dart';
-import 'package:untitled/utils/vl_toast.dart';
+import 'package:pride/utils/loading_animation.dart';
+import 'package:pride/utils/vl_toast.dart';
 import '../../navigation/page_routes.dart';
 import '../../theme/app_colors.dart';
 import '../bloc/login_bloc/login_cubit.dart';

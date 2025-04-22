@@ -1,5 +1,5 @@
-import 'package:untitled/domain/models/external_file_upload_models/external_file_upload_response.dart';
-import 'package:untitled/presentation/screen/student_form/student_form_screen.dart';
+import 'package:pride/domain/models/external_file_upload_models/external_file_upload_response.dart';
+import 'package:pride/presentation/screen/student_form/student_form_screen.dart';
 
 abstract class UploadFileState {}
 

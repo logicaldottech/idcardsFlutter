@@ -3,11 +3,11 @@ import 'dart:io';
 
 import 'package:collection/collection.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:untitled/data/data_sources/local/database_helper.dart';
-import 'package:untitled/domain/exceptions/login_exception.dart';
-import 'package:untitled/domain/models/external_file_upload_models/external_file_upload_request.dart';
-import 'package:untitled/domain/models/external_file_upload_models/external_file_upload_response.dart';
-import 'package:untitled/domain/models/student_form_models/order_pre_data.dart';
+import 'package:pride/data/data_sources/local/database_helper.dart';
+import 'package:pride/domain/exceptions/login_exception.dart';
+import 'package:pride/domain/models/external_file_upload_models/external_file_upload_request.dart';
+import 'package:pride/domain/models/external_file_upload_models/external_file_upload_response.dart';
+import 'package:pride/domain/models/student_form_models/order_pre_data.dart';
 import '../../../data/data_sources/local/preference_utils.dart';
 
 import '../../../domain/models/create_order_models/create_order_request.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:untitled/presentation/bloc/update_template_bloc/update_template_state.dart';
+import 'package:pride/presentation/bloc/update_template_bloc/update_template_state.dart';
 
 import '../../../domain/exceptions/login_exception.dart';
 

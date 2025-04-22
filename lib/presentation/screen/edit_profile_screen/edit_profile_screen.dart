@@ -6,12 +6,12 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
-import 'package:untitled/components/back_button.dart';
-import 'package:untitled/navigation/page_routes.dart';
-import 'package:untitled/presentation/bloc/edit_profile_bloc/edit_profile_cubit.dart';
-import 'package:untitled/presentation/bloc/profile_bloc/profile_cubit.dart';
-import 'package:untitled/utils/loading_animation.dart';
-import 'package:untitled/utils/vl_toast.dart';
+import 'package:pride/components/back_button.dart';
+import 'package:pride/navigation/page_routes.dart';
+import 'package:pride/presentation/bloc/edit_profile_bloc/edit_profile_cubit.dart';
+import 'package:pride/presentation/bloc/profile_bloc/profile_cubit.dart';
+import 'package:pride/utils/loading_animation.dart';
+import 'package:pride/utils/vl_toast.dart';
 
 import '../../../domain/models/edit_profile_models/edit_profile_request.dart';
 import '../../../domain/models/external_file_upload_models/external_file_upload_request.dart';

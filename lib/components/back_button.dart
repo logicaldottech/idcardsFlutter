@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:untitled/theme/app_colors.dart';
+import 'package:pride/theme/app_colors.dart';
 
 class SLBackButton extends StatelessWidget {
   const SLBackButton({super.key});

@@ -1,0 +1,2 @@
+C:/flutter projects/logical_dottech/idcardsFlutter/android/app/.cxx/RelWithDebInfo/3h4p531p/armeabi-v7a/CMakeFiles/edit_cache.dir
+C:/flutter projects/logical_dottech/idcardsFlutter/android/app/.cxx/RelWithDebInfo/3h4p531p/armeabi-v7a/CMakeFiles/rebuild_cache.dir

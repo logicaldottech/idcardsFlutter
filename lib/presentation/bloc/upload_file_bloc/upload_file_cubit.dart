@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:untitled/presentation/bloc/upload_file_bloc/upload_file_state.dart';
-import 'package:untitled/presentation/screen/student_form/student_form_screen.dart';
+import 'package:pride/presentation/bloc/upload_file_bloc/upload_file_state.dart';
+import 'package:pride/presentation/screen/student_form/student_form_screen.dart';
 
 import '../../../domain/exceptions/login_exception.dart';
 

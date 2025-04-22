@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:untitled/presentation/bloc/template_bloc/template_cubit.dart';
-import 'package:untitled/presentation/bloc/template_bloc/template_state.dart';
-import 'package:untitled/presentation/screen/home_screen/landscape_card.dart';
+import 'package:pride/presentation/bloc/template_bloc/template_cubit.dart';
+import 'package:pride/presentation/bloc/template_bloc/template_state.dart';
+import 'package:pride/presentation/screen/home_screen/landscape_card.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

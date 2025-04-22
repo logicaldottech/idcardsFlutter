@@ -1,4 +1,4 @@
-package com.example.untitled
+package com.uk.pride
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -12,22 +12,22 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:untitled/components/back_button.dart';
-import 'package:untitled/domain/models/edit_template_models/edit_template_request.dart';
-import 'package:untitled/domain/models/student_form_models/order_pre_data.dart';
-import 'package:untitled/domain/models/student_form_models/student_form_response.dart';
-import 'package:untitled/presentation/bloc/create_order_bloc/create_order_cubit.dart';
-import 'package:untitled/presentation/bloc/update_template_bloc/update_template_cubit.dart';
-import 'package:untitled/presentation/bloc/update_template_bloc/update_template_state.dart';
-import 'package:untitled/presentation/bloc/upload_file_bloc/upload_file_cubit.dart';
-import 'package:untitled/presentation/bloc/upload_file_bloc/upload_file_state.dart';
-import 'package:untitled/presentation/screen/order_details_screen/delete_details_confirmation_dialog.dart';
-import 'package:untitled/presentation/screen/order_details_screen/order_success_dialog.dart';
-import 'package:untitled/presentation/screen/order_details_screen/preview_container.dart';
-import 'package:untitled/presentation/screen/order_details_screen/util_buttons.dart';
-import 'package:untitled/theme/app_colors.dart';
-import 'package:untitled/utils/loading_animation.dart';
-import 'package:untitled/utils/vl_toast.dart';
+import 'package:pride/components/back_button.dart';
+import 'package:pride/domain/models/edit_template_models/edit_template_request.dart';
+import 'package:pride/domain/models/student_form_models/order_pre_data.dart';
+import 'package:pride/domain/models/student_form_models/student_form_response.dart';
+import 'package:pride/presentation/bloc/create_order_bloc/create_order_cubit.dart';
+import 'package:pride/presentation/bloc/update_template_bloc/update_template_cubit.dart';
+import 'package:pride/presentation/bloc/update_template_bloc/update_template_state.dart';
+import 'package:pride/presentation/bloc/upload_file_bloc/upload_file_cubit.dart';
+import 'package:pride/presentation/bloc/upload_file_bloc/upload_file_state.dart';
+import 'package:pride/presentation/screen/order_details_screen/delete_details_confirmation_dialog.dart';
+import 'package:pride/presentation/screen/order_details_screen/order_success_dialog.dart';
+import 'package:pride/presentation/screen/order_details_screen/preview_container.dart';
+import 'package:pride/presentation/screen/order_details_screen/util_buttons.dart';
+import 'package:pride/theme/app_colors.dart';
+import 'package:pride/utils/loading_animation.dart';
+import 'package:pride/utils/vl_toast.dart';
 
 import '../../../data/data_sources/local/database_helper.dart';
 import '../../../domain/models/create_order_models/create_order_request.dart';
@@ -96,7 +96,8 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                         ),
                       ),
                     ),
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 12),
                     alignment: Alignment.center,
                     child: Text(
                       'Action Required',
@@ -121,7 +122,8 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 20),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -190,6 +192,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
       setState(() => _orderDataList.clear());
     }
   }
+
   bool _isLoading = false;
 
   final picker = ImagePicker();
@@ -417,30 +420,30 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-  title: Text(
-    "All Details",
-    style: GoogleFonts.poppins(
-      fontSize: 24,
-      fontWeight: FontWeight.w600,
-      color: const Color(0XFF262626),
-    ),
-    textAlign: TextAlign.center,
-  ),
-  centerTitle: true,
-  leading: const Padding(
-    padding: EdgeInsets.only(left: 20),
-    child: SLBackButton(),
-  ),
-  backgroundColor: Colors.white,
-  actions: [
-    if (_orderDataList.isNotEmpty)
-      IconButton(
-        icon: const Icon(Icons.cleaning_services_rounded, color: Color(0xFF7653F6)),
-        onPressed: _showClearAllConfirmationDialog,
-      ),
-  ],
-),
-
+          title: Text(
+            "All Details",
+            style: GoogleFonts.poppins(
+              fontSize: 24,
+              fontWeight: FontWeight.w600,
+              color: const Color(0XFF262626),
+            ),
+            textAlign: TextAlign.center,
+          ),
+          centerTitle: true,
+          leading: const Padding(
+            padding: EdgeInsets.only(left: 20),
+            child: SLBackButton(),
+          ),
+          backgroundColor: Colors.white,
+          actions: [
+            if (_orderDataList.isNotEmpty)
+              IconButton(
+                icon: const Icon(Icons.cleaning_services_rounded,
+                    color: Color(0xFF7653F6)),
+                onPressed: _showClearAllConfirmationDialog,
+              ),
+          ],
+        ),
         body: _orderDataList.isEmpty
             ? const Center(child: Text('No entries found.'))
             : ListView.builder(

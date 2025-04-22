@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:untitled/presentation/bloc/home_bloc/home_cubit.dart';
-import 'package:untitled/presentation/bloc/home_bloc/home_state.dart';
-import 'package:untitled/presentation/screen/home_screen/home_page.dart';
-import 'package:untitled/presentation/screen/order_history_screen/order_history_screen.dart';
-import 'package:untitled/presentation/screen/profile_screen/profile_screen.dart';
-import 'package:untitled/utils/common_bottom_navigation.dart';
+import 'package:pride/presentation/bloc/home_bloc/home_cubit.dart';
+import 'package:pride/presentation/bloc/home_bloc/home_state.dart';
+import 'package:pride/presentation/screen/home_screen/home_page.dart';
+import 'package:pride/presentation/screen/order_history_screen/order_history_screen.dart';
+import 'package:pride/presentation/screen/profile_screen/profile_screen.dart';
+import 'package:pride/utils/common_bottom_navigation.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

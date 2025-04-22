@@ -1,7 +1,7 @@
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:untitled/theme/app_colors.dart';
+import 'package:pride/theme/app_colors.dart';
 
 class FontColors extends StatelessWidget {
   final Color? fontColor;

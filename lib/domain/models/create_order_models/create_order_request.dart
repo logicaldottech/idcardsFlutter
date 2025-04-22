@@ -1,4 +1,4 @@
-import 'package:untitled/domain/models/student_form_models/order_pre_data.dart';
+import 'package:pride/domain/models/student_form_models/order_pre_data.dart';
 
 class CreateOrderRequest {
   final String schoolId;

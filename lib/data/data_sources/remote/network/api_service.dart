@@ -4,9 +4,9 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
-import 'package:untitled/main.dart';
-import 'package:untitled/navigation/page_routes.dart';
-import 'package:untitled/utils/vl_toast.dart';
+import 'package:pride/main.dart';
+import 'package:pride/navigation/page_routes.dart';
+import 'package:pride/utils/vl_toast.dart';
 
 import '../../../../utils/app_constants.dart';
 import '../../local/preference_utils.dart';

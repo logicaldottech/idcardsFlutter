@@ -1,4 +1,4 @@
-import 'package:untitled/domain/models/order_details_preview_models/order_details_preview_response.dart';
+import 'package:pride/domain/models/order_details_preview_models/order_details_preview_response.dart';
 
 abstract class OrderDetailsPreviewState {}
 
@@ -10,7 +10,8 @@ class OrderDetailsPreviewRequestLoadingState extends OrderDetailsPreviewState {}
 
 // ✅ Fixed: Now stores a List<OrderItem> instead of OrderDetailsPreviewResponse
 class OrderDetailsPreviewSuccessState extends OrderDetailsPreviewState {
-  final List<OrderItem> orderData; // Store list of OrderItem instead of full response
+  final List<OrderItem>
+      orderData; // Store list of OrderItem instead of full response
   final int currentPage;
   final bool hasMoreData;
 
@@ -42,7 +43,8 @@ class OrderDetailsPreviewFieldErrorState extends OrderDetailsPreviewState {
   OrderDetailsPreviewFieldErrorState(this.fieldErrors);
 
   @override
-  String toString() => 'OrderDetailsPreviewFieldErrorState(fieldErrors: $fieldErrors)';
+  String toString() =>
+      'OrderDetailsPreviewFieldErrorState(fieldErrors: $fieldErrors)';
 }
 
 // State for non-field-specific errors in order details
@@ -52,15 +54,18 @@ class OrderDetailsPreviewNonFieldErrorState extends OrderDetailsPreviewState {
   OrderDetailsPreviewNonFieldErrorState(this.nonFieldErrors);
 
   @override
-  String toString() => 'OrderDetailsPreviewNonFieldErrorState(nonFieldErrors: $nonFieldErrors)';
+  String toString() =>
+      'OrderDetailsPreviewNonFieldErrorState(nonFieldErrors: $nonFieldErrors)';
 }
 
 // State for general field errors in order details
-class OrderDetailsPreviewGeneralFieldErrorState extends OrderDetailsPreviewState {
+class OrderDetailsPreviewGeneralFieldErrorState
+    extends OrderDetailsPreviewState {
   final Map<String, List<String>> generalFieldErrors;
 
   OrderDetailsPreviewGeneralFieldErrorState(this.generalFieldErrors);
 
   @override
-  String toString() => 'OrderDetailsPreviewGeneralFieldErrorState(generalFieldErrors: $generalFieldErrors)';
+  String toString() =>
+      'OrderDetailsPreviewGeneralFieldErrorState(generalFieldErrors: $generalFieldErrors)';
 }

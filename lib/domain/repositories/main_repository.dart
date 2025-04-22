@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:untitled/domain/models/external_file_upload_models/external_file_upload_request.dart';
-import 'package:untitled/domain/models/external_file_upload_models/external_file_upload_response.dart';
+import 'package:pride/domain/models/external_file_upload_models/external_file_upload_request.dart';
+import 'package:pride/domain/models/external_file_upload_models/external_file_upload_response.dart';
 
 import '../../data/data_sources/local/preference_utils.dart';
 import '../../data/data_sources/remote/network/api_service.dart';

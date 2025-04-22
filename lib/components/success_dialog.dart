@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:untitled/theme/app_colors.dart';
+import 'package:pride/theme/app_colors.dart';
 
 class SuccessDialog extends StatelessWidget {
   final String title;

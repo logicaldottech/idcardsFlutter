@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:untitled/domain/exceptions/login_exception.dart';
+import 'package:pride/domain/exceptions/login_exception.dart';
 import '../../../data/data_sources/local/preference_utils.dart';
 
 import '../../../domain/models/profile_models/profile_request.dart';

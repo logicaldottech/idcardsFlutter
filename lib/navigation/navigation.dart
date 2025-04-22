@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:untitled/domain/models/template_models/template_response.dart';
-import 'package:untitled/presentation/screen/edit_profile_screen/edit_profile_screen.dart';
-import 'package:untitled/presentation/screen/order_details_screen/order_details_screen.dart';
-import 'package:untitled/presentation/screen/student_form/student_form_screen.dart';
-import 'package:untitled/presentation/screen/template_preview/template_preview_screen.dart';
+import 'package:pride/domain/models/template_models/template_response.dart';
+import 'package:pride/presentation/screen/edit_profile_screen/edit_profile_screen.dart';
+import 'package:pride/presentation/screen/order_details_screen/order_details_screen.dart';
+import 'package:pride/presentation/screen/student_form/student_form_screen.dart';
+import 'package:pride/presentation/screen/template_preview/template_preview_screen.dart';
 
 import '../presentation/screen/change_password_screen.dart';
 import '../presentation/screen/edit_template_screen/edit_template_screen.dart';

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:untitled/navigation/page_routes.dart';
+import 'package:pride/navigation/page_routes.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class TemplatePreviewScreen extends StatefulWidget {

@@ -1,6 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:untitled/domain/exceptions/login_exception.dart';
+import 'package:pride/domain/exceptions/login_exception.dart';
 import '../../../domain/models/edit_profile_models/edit_profile_request.dart';
 import '../../../domain/models/edit_profile_models/edit_profile_response.dart';
 import '../../../domain/repositories/main_repository.dart';

@@ -1,8 +1,5 @@
-
-
-
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:untitled/presentation/bloc/template_bloc/template_state.dart';
+import 'package:pride/presentation/bloc/template_bloc/template_state.dart';
 
 import '../../../domain/exceptions/template_exception.dart';
 import '../../../domain/models/template_models/template_response.dart';
@@ -16,7 +13,8 @@ class TemplateCubit extends Cubit<TemplateState> {
   Future<void> fetchTemplates() async {
     try {
       emit(TemplateLoadingState());
-      TemplateResponse templateResponse = await _mainRepository.fetchTemplates();
+      TemplateResponse templateResponse =
+          await _mainRepository.fetchTemplates();
 
       if (templateResponse.data?.templates?.isNotEmpty == true) {
         emit(TemplateSuccessState(templateResponse));

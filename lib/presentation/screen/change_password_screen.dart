@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart'; // Add Google Fonts for consistent typography
-import 'package:untitled/components/back_button.dart';
-import 'package:untitled/utils/loading_animation.dart';
-import 'package:untitled/utils/vl_toast.dart';
+import 'package:pride/components/back_button.dart';
+import 'package:pride/utils/loading_animation.dart';
+import 'package:pride/utils/vl_toast.dart';
 
 import '../../navigation/page_routes.dart';
 import '../bloc/login_bloc/new_password_cubit.dart';

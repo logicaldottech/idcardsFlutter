@@ -1,12 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:untitled/data/data_sources/local/database_helper.dart';
-import 'package:untitled/data/data_sources/local/preference_utils.dart';
-import 'package:untitled/domain/models/log_out_models/log_out_request.dart';
-import 'package:untitled/domain/models/profile_models/profile_request.dart';
-import 'package:untitled/utils/loading_animation.dart';
-import 'package:untitled/utils/vl_toast.dart';
+import 'package:pride/data/data_sources/local/database_helper.dart';
+import 'package:pride/data/data_sources/local/preference_utils.dart';
+import 'package:pride/domain/models/log_out_models/log_out_request.dart';
+import 'package:pride/domain/models/profile_models/profile_request.dart';
+import 'package:pride/utils/loading_animation.dart';
+import 'package:pride/utils/vl_toast.dart';
 
 import '../../../domain/models/profile_models/profile_response.dart';
 import '../../../navigation/page_routes.dart';
